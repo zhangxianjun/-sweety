@@ -17,18 +17,13 @@ func (s *server) SayHello(cxt context.Context, req *bp.HelloHTTPRequest) (*bp.He
 	return &bp.HelloHTTPResponse{Message: "Hello, " + req.Name}, nil
 }
 
-func RegisterHelloHTTPServer(s grpc.ServiceRegistrar, srv bp.HelloHTTPServer) {
-	s.RegisterService(&bp.HelloHTTP_ServiceDesc, srv)
-}
-
 func main() {
 	lis, err := net.Listen("tcp", "127.0.0.1:50052")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-
-	RegisterHelloHTTPServer(s, &server{})
+	s.RegisterService(&bp.HelloHTTP_ServiceDesc, &server{})
 	// Register reflection service on gRPC server.
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
