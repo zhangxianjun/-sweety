@@ -1,0 +1,18 @@
+version: v1
+#name: buf.build/flint/sweet
+#deps:
+#  - buf.build/googleapis/googleapis
+plugins:
+  - plugin: go
+    out: .
+    opt:
+      - paths=source_relative
+  - plugin: go-grpc
+    out: ./
+    opt:
+      - paths=source_relative
+  - plugin: grpc-gateway
+    out: ./
+    opt:
+      - paths=source_relative
+      - generate_unbound_methods=true
